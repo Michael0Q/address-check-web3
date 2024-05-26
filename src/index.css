@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@keyframes shiningStar {
+  0%{
+    
+  }
+  50%{
+    opacity: 0.8;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes meteolite {
+  from {
+    height: 0%;
+  }
+
+  to{
+    height: 100%;
+  }
+}

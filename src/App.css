@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+
+#root {
+  display: block;
+}
+
+body {
+  min-height: 100vh;
+  background-size: cover;
+  background: linear-gradient(to bottom, rgb(21, 1, 59), rgb(0, 0, 0));
+  overflow: hidden
+}
+
+@keyframes meteolite {
+  from {
+      height: 0%;
+      transform: translateY(-50px);
+  }
+  to {
+      height: 100%;
+      transform: translateY(100vh); /* ビューポートの高さまで移動 */
+  }
+}
+
+@keyframes meteolite2 {
+  from {
+      height: 100%;
+      transform: translateY(100vh);
+  }
+  to {
+      height: 0%;
+      transform: translateY(200vh); /* ビューポートの外に移動 */
+  }
+}
+
+.meteo {
+  animation:  meteolite 0.5s forwards, 
+              meteolite2 0.5s 0.5s forwards;
+  position: absolute;
+  top: 0%;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(to top, rgb(255, 255, 255), rgb(241, 255, 195));
+}
+
+
