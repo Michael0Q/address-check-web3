@@ -1,10 +1,11 @@
-import {useEffect, useState, CSSProperties, ChangeEventHandler, useRef} from 'react';
+import {useEffect, useState, CSSProperties, ChangeEventHandler, useRef, Suspense} from 'react';
 import './App.css';
 import {styled} from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlassArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { Transaction, sampleTransactions } from './Web3TypeOf';
 import { TransactionViewer } from './comp/TransactionViewer';
+import {Loading} from './comp/Loading'
 
 type AppDisplay = 
 | 'Home'
@@ -39,6 +40,7 @@ const App = () => {
   const [canEnter, setCanEnter] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
   const [display, setDisplay] = useState<AppDisplay>('Home');
+  const [isLoding, setIsLoding] = useState<boolean>(false);
   const meteoRef = useRef<HTMLDivElement | null>(null);
   const transactionMap = useRef<Map<string, number>>(sumpleMap);
 
@@ -110,9 +112,9 @@ const App = () => {
         </>
       }
       {display === 'Result' &&
-        <>
+        <Suspense fallback={<Loading/>}>
           <TransactionViewer transactionMap={transactionMap.current}/>
-        </>
+        </Suspense>
       }
     </>
   );
