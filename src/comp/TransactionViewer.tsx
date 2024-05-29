@@ -26,3 +26,5 @@ const Frame = styled.div`
     align-items: center;
     overflow-y: auto;
 `
+
+export default TransactionViewer

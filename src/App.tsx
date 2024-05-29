@@ -1,12 +1,16 @@
-import {useEffect, useState, CSSProperties, ChangeEventHandler, useRef, Suspense} from 'react';
+import {lazy, useEffect, useState, CSSProperties, ChangeEventHandler, useRef, Suspense} from 'react';
 import './App.css';
 import {styled} from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlassArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { Transaction, sampleTransactions } from './Web3TypeOf';
-import { TransactionViewer } from './comp/TransactionViewer';
 import {Loading} from './comp/Loading'
-
+const TransactionViewer =  lazy(() => delayForDemo(import('./comp/TransactionViewer')))
+const delayForDemo = (promise : any) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, 1000);
+  }).then(() => promise);
+}
 type AppDisplay = 
 | 'Home'
 | 'Result';
@@ -96,6 +100,8 @@ const App = () => {
     setAddress(e.target.value);
     createMeteo();
   }
+
+
 
   console.log('app.jsx render!');
   return (
