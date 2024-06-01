@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# イーサリアムアドレスチェッカー
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 概要
 
-## Available Scripts
+このアプリケーションは、指定されたイーサリアムアドレスの過去のトランザクションを検索し、総取引量が最も多いイーサリアムアドレスを降順で表示します。ブロックチェーンデータを解析し、取引履歴の視覚的な洞察を提供します。
 
-In the project directory, you can run:
+## 目的
 
-### `npm start`
+このアプリケーションの主な目的は、ユーザーが特定のイーサリアムアドレスの取引履歴を容易に追跡し、最も取引量の多いアドレスを特定できるようにすることです。これにより、特定のアドレスの活動パターンを理解し、信頼性や影響力のあるアドレスを特定する助けになります。
+総取引量の多いアドレスは一般的に、エクスチェンジウォレット、コールドウォレット、親密な第三者のウォレットである可能性が高いです。
+この情報はあなたのクリプトライフの助けになることでしょう。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ユースケース
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. **投資家**:
+   - 特定のイーサリアムアドレスの取引履歴を調べ、信頼性の高いアドレスを特定する。
+   - 取引量の多いアドレスを分析し、潜在的な市場の動向を把握する。
 
-### `npm test`
+2. **リサーチャー**:
+   - イーサリアムネットワーク上での取引行動を研究し、市場の動向や取引パターンを分析する。
+   - 特定のアドレスの活動履歴を追跡し、不正行為の検出や防止に役立てる。
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 特徴
 
-### `npm run build`
+- **簡単な検索**: ユーザーは特定のイーサリアムアドレスを入力するだけで、過去のトランザクションを簡単に検索できます。
+- **詳細な分析**: 総取引量が最も多いイーサリアムアドレスを降順で表示し、詳細な取引データを提供します。
+- **視覚化**: 取引履歴を視覚化し、ユーザーがデータを直感的に理解できるようにします。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 使用方法
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. イーサリアムアドレスを入力します。
+2. Enterを押下します。
+3. 入力したアドレスとの総取引量が最も多いアドレスが降順で表示されます。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 注意
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+このアプリケーションは制作途中です。
