@@ -1,11 +1,13 @@
 import {lazy, useEffect, useState, CSSProperties, ChangeEventHandler, useRef, Suspense} from 'react';
 import './App.css';
 import {styled} from 'styled-components';
+import { Transaction, sampleTransactions } from './Web3TypeOf';
+import {sumpleMap} from './data/Database'
+import {Loading} from './comp/Loading'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlassArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { Transaction, sampleTransactions } from './Web3TypeOf';
-import {Loading} from './comp/Loading'
 const TransactionViewer =  lazy(() => delayForDemo(import('./comp/TransactionViewer')))
+
 const delayForDemo = (promise : any) => {
   return new Promise(resolve => {
     setTimeout(resolve, 1000);
@@ -16,12 +18,6 @@ type AppDisplay =
 | 'Result';
 
 const App = () => {
-
-  const sumpleMap = new Map();
-  sumpleMap.set('A', 10);
-  sumpleMap.set('B', 20);
-  sumpleMap.set('C', 30);
-  sumpleMap.set('D', 40);
 
   const getTransactions : any = async (address : string) => {
 
@@ -44,9 +40,8 @@ const App = () => {
   const [canEnter, setCanEnter] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
   const [display, setDisplay] = useState<AppDisplay>('Home');
-  const [isLoding, setIsLoding] = useState<boolean>(false);
   const meteoRef = useRef<HTMLDivElement | null>(null);
-  const transactionMap = useRef<Map<string, number>>(sumpleMap);
+  const transactionMap = useRef<Map<string, number>[]>(sumpleMap);
 
   useEffect(() => {
     setCanEnter(address.length != 0 && isValidAddress(address));
@@ -91,7 +86,7 @@ const App = () => {
           map.set(key, txValue);
         }
       });
-      transactionMap.current = new Map([...map].sort((a, b) => b[1] - a[1]));
+      transactionMap.current = new Array(new Map([...map].sort((a, b) => b[1] - a[1])));
       setDisplay('Result');
     }
   }
@@ -100,8 +95,6 @@ const App = () => {
     setAddress(e.target.value);
     createMeteo();
   }
-
-
 
   console.log('app.jsx render!');
   return (
@@ -119,9 +112,9 @@ const App = () => {
       }
       {display === 'Result' &&
         <Suspense fallback={<Loading/>}>
-          <TransactionViewer transactionMap={transactionMap.current}/>
+          <TransactionViewer txArray={transactionMap.current}/>
         </Suspense>
-      }
+      } 
     </>
   );
 }

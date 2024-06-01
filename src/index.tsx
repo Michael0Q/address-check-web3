@@ -69,7 +69,7 @@ const createStars = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-    {createStars()}
+    {/* {createStars()} */}
     <App />
   </React.StrictMode>
   ,document.getElementById('root') as HTMLElement
