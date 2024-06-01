@@ -41,6 +41,7 @@ const App = () => {
   const [address, setAddress] = useState<string>('');
   const [display, setDisplay] = useState<AppDisplay>('Home');
   const meteoRef = useRef<HTMLDivElement | null>(null);
+  const [txData, setTxData] = useState<Map<string, number>[]>(new Array());
   const transactionMap = useRef<Map<string, number>[]>(sumpleMap);
 
   useEffect(() => {
@@ -86,9 +87,14 @@ const App = () => {
           map.set(key, txValue);
         }
       });
-      transactionMap.current = new Array(new Map([...map].sort((a, b) => b[1] - a[1])));
+      handleTxData(new Map([...map].sort((a, b) => b[1] - a[1])));
       setDisplay('Result');
     }
+  }
+
+  const handleTxData = (newTx : Map<string, number>) => {
+    console.log('txDataRenewed');
+    setTxData(e => [...e, newTx]);
   }
 
   const handleAddress : ChangeEventHandler<HTMLInputElement>  = (e) => {
@@ -112,7 +118,7 @@ const App = () => {
       }
       {display === 'Result' &&
         <Suspense fallback={<Loading/>}>
-          <TransactionViewer txArray={transactionMap.current}/>
+          <TransactionViewer txArray={txData} handleTxData={handleTxData}/>
         </Suspense>
       } 
     </>

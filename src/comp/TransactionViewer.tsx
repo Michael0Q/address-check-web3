@@ -1,10 +1,29 @@
 import styled from "styled-components";
 import { Transactions } from "./Transactions";
-import { useState } from "react";
-import { backdropClasses } from "@mui/material";
+import { useRef, useState } from "react";
+import { Transaction, sampleTransactions } from '../Web3TypeOf';
 
-export const TransactionViewer = (props : {txArray : Map<string, number>[]}) => {
-    const {txArray} = props
+
+const getTransactions : any = async (address : string) => {
+
+    const URI = 'https://api.etherscan.io/api'.concat(
+        '?module=account',
+        '&action=txlist',
+        `&address=${address}`,
+        '&startblock=0',
+        '&endblock=99999999',
+        '&page=1',
+        '&offset=10',
+        '&sort=asc',
+        '&apikey=31EDPSECNKMS7RNDMM8HSIBXHVBUIHSDVN',
+    ); 
+    return fetch(URI)
+        .then(e => e.json())
+        .then(e => e.result);
+    } 
+
+export const TransactionViewer = (props : {txArray : Map<string, number>[], handleTxData : (txMap : Map<string, number>) => {}}) => {
+    const {txArray, handleTxData} = props
     const [currentItem, setCurrentItem] = useState(0);
     
     const next = () => {
@@ -13,6 +32,23 @@ export const TransactionViewer = (props : {txArray : Map<string, number>[]}) => 
     const back = () => {
         setCurrentItem(n => currentItem == 0 ? 0 : n - 1);
     }
+
+    const expandTx = async (address: string) => {
+        console.log('expandTxed');
+        const result : Transaction = await getTransactions(address);
+        const map = new Map<string, number>();
+        result.map((e, index) => {
+            console.log(index);
+            const key = e.from === address ? e.to : e.from;
+            const txValue : number = Number.parseInt(e.value) / 1e18;
+            if(map.has(key)){
+                map.set(key, txValue + (map.get(key) as number));
+            }else{
+                map.set(key, txValue);
+            }
+        });
+        handleTxData(map);
+    }
     return(
         <>
             <BackButton onClick={back}>戻る</BackButton>
@@ -20,7 +56,7 @@ export const TransactionViewer = (props : {txArray : Map<string, number>[]}) => 
             <Frame transform={currentItem} dataLength={txArray.length} id='tx-viewer'>
                 {txArray.map((e, index)=> {
                     return(
-                        <Transactions txMap={e}/>
+                        <Transactions onClick={expandTx} txMap={e}/>
                     );
                 })}
             </Frame>
@@ -49,7 +85,7 @@ const NextButton = styled.div`
     position: fixed;
     background-color: aliceblue;
     top: 0%;
-    left: 0%;
+    left: 20%;
     height: 100px;
     width: 100px;
     z-index: 100;
@@ -57,7 +93,8 @@ const NextButton = styled.div`
 
 const BackButton = styled(NextButton)`
     top: 0%;
-    left: 20%;
+    left: 0%;
+    z-index: 100;
 `
 
 export default TransactionViewer

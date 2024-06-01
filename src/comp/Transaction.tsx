@@ -1,12 +1,17 @@
 import {styled} from 'styled-components';
 
-export const Transaction = (props : {address: string, totalValue : number, isLast? : boolean}) => {
+export const Transaction = (props : {address: string, totalValue : number, isLast? : boolean, onClick : (address: string) => {}}) => {
+    const {address, totalValue, onClick} = props;
+
+    const handle = () => {
+        console.log('handled')
+        onClick(address);
+    }
     return (
         <>
-            <Frame id='tx'>
-                <WalletName >{'wallet.name'}</WalletName>
+            <Frame onClick={handle} id='tx'>
                 <Address >{props.address}</Address>
-                <Amount >{props.totalValue}</Amount>
+                <Amount >{props.totalValue + '  ETH'}</Amount>
             </Frame>
             {props.isLast &&       
             <EmptyFrame>
@@ -23,7 +28,7 @@ const Frame = styled.div`
     border-color: #b1f9f5;
     border-width: 3px;
     border-radius: 15px;
-    display: block;
+    display: flex;
     flex-flow: column;
     align-items: center;
 `;
@@ -31,15 +36,12 @@ const Frame = styled.div`
 const EmptyFrame = styled(Frame)`
     visibility: hidden;
 `;
-const WalletName = styled.span`
-    margin-top : 10px;
-    border-radius: 15px;
-`
 const Address = styled.span`
     margin-top : 10px;
     border-radius: 15px;
 `
 const Amount = styled.span`
+
     margin-top : 10px;
     border-radius: 15px;
 `
