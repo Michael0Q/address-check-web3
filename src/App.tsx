@@ -1,48 +1,34 @@
 import {lazy, useEffect, useState, CSSProperties, ChangeEventHandler, useRef, Suspense} from 'react';
 import './App.css';
 import {styled} from 'styled-components';
-import { Transaction, sampleTransactions } from './Web3TypeOf';
-import {sumpleMap} from './data/Database'
-import {Loading} from './comp/Loading'
+import {Loading} from './component/Loading'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlassArrowRight } from '@fortawesome/free-solid-svg-icons'
-const TransactionViewer =  lazy(() => delayForDemo(import('./comp/TransactionViewer')))
+import { useAppDispatch, useAppSelector } from './utils/useRedux';
+import { renewTrn } from './redux/slices/trnSlice';
+import { isValidAddress } from './utils/web3Utils'; 
+import { createMeteo } from './utils/utils';
+const TransactionViewer =  lazy(() => delayForDemo(import('./pages/TransactionViewer')))
 
 const delayForDemo = (promise : any) => {
   return new Promise(resolve => {
     setTimeout(resolve, 1000);
   }).then(() => promise);
 }
+
 type AppDisplay = 
 | 'Home'
 | 'Result';
 
 const App = () => {
 
-  const getTransactions : any = async (address : string) => {
-
-    const URI = 'https://api.etherscan.io/api'.concat(
-      '?module=account',
-      '&action=txlist',
-      `&address=${address}`,
-      '&startblock=0',
-      '&endblock=99999999',
-      '&page=1',
-      '&sort=asc',
-      '&apikey=31EDPSECNKMS7RNDMM8HSIBXHVBUIHSDVN',
-    ); 
-    return fetch(URI)
-      .then(e => e.json())
-      .then(e => e.result);
-  } 
+  const dispatch = useAppDispatch();
 
 /* State-START */
   const [canEnter, setCanEnter] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
   const [display, setDisplay] = useState<AppDisplay>('Home');
   const meteoRef = useRef<HTMLDivElement | null>(null);
-  const [txData, setTxData] = useState<Map<string, number>[]>(new Array());
-  const transactionMap = useRef<Map<string, number>[]>(sumpleMap);
 
   useEffect(() => {
     setCanEnter(address.length != 0 && isValidAddress(address));
@@ -50,23 +36,9 @@ const App = () => {
 
   useEffect(() => {
     if(window.onclick === null){
-      window.addEventListener('click', createMeteo);
+      window.addEventListener('click', () => createMeteo(meteoRef));
     }
   }, []);
-
-  const createMeteo = () => {
-    const meteoElement = document.createElement('div');
-    meteoElement.classList.add('meteo');
-    meteoElement.style.left = `${Math.random() * 100}%`;
-    meteoElement.addEventListener('animationend', () => {
-      meteoElement.remove();
-    });
-    meteoRef.current?.appendChild(meteoElement);
-  };
-
-  const isValidAddress = (address : string) : boolean => {
-    return /^0x[a-fA-F0-9]{40}$/.test(address);
-}
 
   /**
    * 【サブミット処理】
@@ -76,30 +48,14 @@ const App = () => {
    */
   const submit = async (e : any) => {
     if(canEnter && e.key === 'Enter'){
-      const result : Transaction = await getTransactions(address);
-      const map = new Map<string, number>();
-      result.map((e) => {
-        const key = e.from === address ? e.to : e.from;
-        const txValue : number = Number.parseInt(e.value) / 1e18;
-        if(map.has(key)){
-          map.set(key, txValue + (map.get(key) as number));
-        }else{
-          map.set(key, txValue);
-        }
-      });
-      handleTxData(new Map([...map].sort((a, b) => b[1] - a[1])));
+      dispatch(renewTrn(address));
       setDisplay('Result');
     }
   }
 
-  const handleTxData = (newTx : Map<string, number>) => {
-    console.log('txDataRenewed');
-    setTxData(e => [...e, newTx]);
-  }
-
   const handleAddress : ChangeEventHandler<HTMLInputElement>  = (e) => {
     setAddress(e.target.value);
-    createMeteo();
+    createMeteo(meteoRef);
   }
 
   console.log('app.jsx render!');
@@ -118,9 +74,9 @@ const App = () => {
       }
       {display === 'Result' &&
         <Suspense fallback={<Loading/>}>
-          <TransactionViewer txArray={txData} handleTxData={handleTxData}/>
+          <TransactionViewer />
         </Suspense>
-      } 
+      }
     </>
   );
 }

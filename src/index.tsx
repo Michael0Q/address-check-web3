@@ -4,6 +4,9 @@ import styled, { keyframes, css } from 'styled-components';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
 
 type StarProps = {
   top: number;
@@ -70,7 +73,9 @@ const createStars = () => {
 ReactDOM.render(
   <React.StrictMode>
     {/* {createStars()} */}
-    <App />
+    <Provider store={store} >
+      <App />
+    </Provider>
   </React.StrictMode>
   ,document.getElementById('root') as HTMLElement
 );

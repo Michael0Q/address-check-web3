@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Transaction } from './Transaction';
 
-export const Transactions = (props: { txMap: Map<string, number>, onClick : (address : string) => {}}) => {
-    const {txMap, onClick} = props;
+export const Transactions = (props: { txMap: Map<string, number>}) => {
     return (
         <Frame id='tx-frame'>
             <InlineFrame id='tx-inline-frame'>
                 {Array.from(props.txMap).map((e : any, index) => {
                     return (
-                        <Transaction onClick={onClick} key={index} address={e[0]} totalValue={e[1]} isLast={++index == props.txMap.size} />
+                        <Transaction key={index} address={e[0]} totalValue={e[1]} isLast={++index == props.txMap.size} />
                     );
                 })}
             </InlineFrame>

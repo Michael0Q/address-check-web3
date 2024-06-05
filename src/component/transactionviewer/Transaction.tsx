@@ -1,17 +1,16 @@
 import {styled} from 'styled-components';
+import { useAppDispatch } from '../../utils/useRedux';
+import { renewTrn } from '../../redux/slices/trnSlice';
 
-export const Transaction = (props : {address: string, totalValue : number, isLast? : boolean, onClick : (address: string) => {}}) => {
-    const {address, totalValue, onClick} = props;
+export const Transaction = (props : {address: string, totalValue : number, isLast? : boolean,}) => {
+    const {address} = props;
+    const dispatch = useAppDispatch();
 
-    const handle = () => {
-        console.log('handled')
-        onClick(address);
-    }
     return (
         <>
-            <Frame onClick={handle} id='tx'>
-                <Address >{props.address}</Address>
-                <Amount >{props.totalValue + '  ETH'}</Amount>
+            <Frame onClick={() => {dispatch(renewTrn(address))}} id='tx'>
+                <Address>{props.address}</Address>
+                <Amount>{props.totalValue + ' ETH'}</Amount>
             </Frame>
             {props.isLast &&       
             <EmptyFrame>
