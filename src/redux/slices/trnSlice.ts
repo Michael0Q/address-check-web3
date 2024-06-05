@@ -1,12 +1,11 @@
 import {PayloadAction, createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import { create } from 'domain';
 import { APIresult, Transaction, TransactionMap } from '../../context/type/Web3TypeOf';
 import { RootState } from '../store';
 import { getListTransactions } from '../../utils/web3Utils';
-import { getTransaction } from 'web3/lib/commonjs/eth.exports';
+import { sumpleTrn } from '../../context/data/Database';
 
 const initialState = {
-    trn: [new Map()]
+    trn: sumpleTrn
 }
 
 export const renewTrn = createAsyncThunk(

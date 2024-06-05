@@ -1,6 +1,6 @@
 import { APIresult, Transaction, TransactionMap } from '../../context/type/Web3TypeOf';
 
-export const sumpleMap = new Array(
+export const sumpleTrn = new Array(
     new Map([
         ['A', 10],
         ['B', 20],
@@ -36,33 +36,6 @@ export const sumpleMap = new Array(
         ['E', 30],
         ['F', 30],
         ['G', 40]
-    ]),
-    new Map([
-        ['A', 10],
-        ['B', 20],
-        ['C', 30],
-        ['D', 40]
-    ]),
-    new Map([
-        ['A', 10],
-        ['B', 20],
-        ['C', 30],
-        ['D', 30],
-        ['E', 30],
-        ['F', 30],
-        ['G', 40]
-    ]),
-    new Map([
-        ['A', 10],
-        ['B', 20],
-        ['C', 30],
-        ['D', 40]
-    ]),
-    new Map([
-        ['A', 10],
-        ['B', 20],
-        ['C', 30],
-        ['D', 40]
     ]),
 );
 

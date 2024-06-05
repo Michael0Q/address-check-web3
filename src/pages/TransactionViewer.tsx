@@ -6,18 +6,18 @@ import { useSelector } from "react-redux";
 export const TransactionViewer = () => {
     const trn = useSelector((state : any) => state.trnsaction.trn);
     const [currentItem, setCurrentItem] = useState(0);
-    
+
     const next = () => {
-        setCurrentItem(n => trn.length == (currentItem + 1) * 2 ? 0 : n + 1);
+        setCurrentItem((n) => trn.length == n + 1 ? n : n + 1);
     }
     const back = () => {
-        setCurrentItem(n => currentItem == 0 ? 0 : n - 1);
+        setCurrentItem(n => n + 1 == 0 ? n : n - 1);
     }
 
     return(
         <>
             <BackButton onClick={back}>戻る</BackButton>
-            <NextButton onClick={trn.length == currentItem * 2 ? () => {} : next} >次へ</NextButton>
+            <NextButton onClick={next} >次へ</NextButton>
             <Frame transform={currentItem} dataLength={trn.length} id='tx-viewer'>
                 {trn.map((e : any)=> {
                     return(
@@ -40,9 +40,7 @@ const Frame = styled.div<{transform : number, dataLength : number}>`
     white-space: nowrap;
     overflow: visible;
     transform: ${({ transform, dataLength }) => {
-        if(dataLength % 2 == 0){
-            return dataLength == transform * 2 ? '' : `translate3d(${-1000 * transform}px, 0, 0)`;
-        }
+        return `translate3d(${-500 * transform}px, 0, 0)`;
     }};
     transition: 1s
 `

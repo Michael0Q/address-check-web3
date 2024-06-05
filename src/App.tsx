@@ -27,7 +27,7 @@ const App = () => {
 /* State-START */
   const [canEnter, setCanEnter] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
-  const [display, setDisplay] = useState<AppDisplay>('Home');
+  const [display, setDisplay] = useState<AppDisplay>('Result');
   const meteoRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

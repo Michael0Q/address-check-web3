@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 ./src/server/node_modules
-/context/config/config.ts
+./context/config/config.ts
 
 # testing
 /coverage
