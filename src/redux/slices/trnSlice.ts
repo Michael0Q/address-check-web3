@@ -3,15 +3,24 @@ import { APIresult, Transaction, TransactionMap } from '../../context/type/Web3T
 import { RootState } from '../store';
 import { getListTransactions } from '../../utils/web3Utils';
 import { sumpleTrn } from '../../context/data/Database';
+import { onDisable, unDisable } from './disabledSlice';
+
 
 const initialState = {
-    trn: sumpleTrn
+    val: [] as TransactionMap[]
 }
 
 export const renewTrn = createAsyncThunk(
     'transaction/renewTrn',
-    async (address : string) => {
-        const result : Transaction[] = await getListTransactions(address);
+    async (address : string, {dispatch}) => {
+        dispatch(onDisable());
+        const APIresult : Transaction[] = await getListTransactions(address);
+        let result : Transaction[] = [] 
+        for(let i = 0; i < 10; i++){ 
+            result.push(APIresult[i]);
+            if(i == 10) break;
+        }
+
         const map = new Map<string, number>();
         result.map((e, index) => {
             const key = e.from === address ? e.to : e.from;
@@ -21,7 +30,9 @@ export const renewTrn = createAsyncThunk(
             }else{
                 map.set(key, txValue);
             }
-    });
+            if (index == 10){}
+        });
+        dispatch(unDisable());
         return new Map([...map].sort((a, b) => b[1] - a[1]));
     }
 );
@@ -36,16 +47,10 @@ const trnSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(renewTrn.fulfilled, (state, action: PayloadAction<TransactionMap>) => {
-            state.trn.push(action.payload);
-        });
+            state.val.push(action.payload);
+        })
     }
 });
-
-
-//     
-//     dispatch(renewTrn(map));
-// }
-// }
 
 export const {delTrn} = trnSlice.actions
 export const trnVal = (state: RootState) => state.trnsaction

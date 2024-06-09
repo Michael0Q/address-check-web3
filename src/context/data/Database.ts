@@ -28,15 +28,6 @@ export const sumpleTrn = new Array(
         ['F', 30],
         ['G', 40]
     ]),
-    new Map([
-        ['A', 10],
-        ['B', 20],
-        ['C', 30],
-        ['D', 30],
-        ['E', 30],
-        ['F', 30],
-        ['G', 40]
-    ]),
 );
 
 export const sampleTransactions: APIresult = {

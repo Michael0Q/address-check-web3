@@ -1,0 +1,58 @@
+
+/* 各Stepの丸サイズ */
+:where(.css-dev-only-do-not-override-3rel02).ant-steps.ant-steps-vertical >.ant-steps-item .ant-steps-item-icon{
+    width: 60px;
+    height: 60px;
+}
+
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-wait .ant-steps-item-icon {
+    background-color: white;
+    border-color: white
+}
+
+/* 各Stepの数字サイズ */
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-icon{
+    font-size: 30px;
+}
+
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-icon .ant-steps-icon{
+    top: 10px
+}
+
+/* 進捗の線 */
+:where(.css-dev-only-do-not-override-3rel02).ant-steps.ant-steps-vertical >.ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail::after{
+    width: 3px;
+    height: 100%;
+}
+
+:where(.css-dev-only-do-not-override-3rel02).ant-steps.ant-steps-vertical >.ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail {
+    top: 12%;
+    inset-inline-start: 27px;
+}
+
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-tail::after{
+    background-color: white;
+}
+
+/*各Stepsが入ったBlock*/
+:where(.css-dev-only-do-not-override-3rel02).ant-steps.ant-steps-vertical >.ant-steps-item{
+    height: 170px;
+    width: 500px;
+}
+/* Title */
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title,
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title,
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+    color: white;
+    font-size: 24px;
+}
+
+/* Discription */
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-description,
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-description,
+:where(.css-dev-only-do-not-override-3rel02).ant-steps .ant-steps-item-wait>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-description{
+    color: white;
+    font-size: 20px;
+}
+
+

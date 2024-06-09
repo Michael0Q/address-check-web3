@@ -1,5 +1,5 @@
 import {lazy, useEffect, useState, CSSProperties, ChangeEventHandler, useRef, Suspense} from 'react';
-import './App.css';
+import './context/styles/App.css'
 import {styled} from 'styled-components';
 import {Loading} from './component/Loading'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +8,10 @@ import { useAppDispatch, useAppSelector } from './utils/useRedux';
 import { renewTrn } from './redux/slices/trnSlice';
 import { isValidAddress } from './utils/web3Utils'; 
 import { createMeteo } from './utils/utils';
+import { Header } from './pages/Header';
+import { goResult } from './redux/slices/displaySlice';
+import { About } from './pages/About';
+import { Price } from './pages/Price';
 const TransactionViewer =  lazy(() => delayForDemo(import('./pages/TransactionViewer')))
 
 const delayForDemo = (promise : any) => {
@@ -16,23 +20,24 @@ const delayForDemo = (promise : any) => {
   }).then(() => promise);
 }
 
-type AppDisplay = 
-| 'Home'
-| 'Result';
-
 const App = () => {
 
   const dispatch = useAppDispatch();
+  const display = useAppSelector(state => state.display.val);
 
 /* State-START */
   const [canEnter, setCanEnter] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
-  const [display, setDisplay] = useState<AppDisplay>('Result');
   const meteoRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setCanEnter(address.length != 0 && isValidAddress(address));
-  }, [address]);
+  }, [address, display]);
+
+  useEffect(() => {
+    setCanEnter(false);
+    setAddress('')
+  }, [display]);
 
   useEffect(() => {
     if(window.onclick === null){
@@ -49,7 +54,7 @@ const App = () => {
   const submit = async (e : any) => {
     if(canEnter && e.key === 'Enter'){
       dispatch(renewTrn(address));
-      setDisplay('Result');
+      dispatch(goResult());
     }
   }
 
@@ -61,6 +66,7 @@ const App = () => {
   console.log('app.jsx render!');
   return (
     <>
+      <Header></Header>      
       {display === 'Home' && 
         <>
           <div className='meteo-fall-area' ref={meteoRef}></div>
@@ -76,6 +82,12 @@ const App = () => {
         <Suspense fallback={<Loading/>}>
           <TransactionViewer />
         </Suspense>
+      }
+      {display === 'About' &&
+        <About></About>  
+      }
+      {display === 'Price' &&
+        <Price></Price>  
       }
     </>
   );

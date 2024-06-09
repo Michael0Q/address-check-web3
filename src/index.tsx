@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { keyframes, css } from 'styled-components';
-import './index.css';
+import './context/styles/index.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
@@ -50,7 +50,6 @@ const createStars = () => {
       fromOpacity: Math.random() * 2, // 0.5から1の間でランダムに設定
     });
   }
-
   return (
     <>
       {stars.map((star, index) => (

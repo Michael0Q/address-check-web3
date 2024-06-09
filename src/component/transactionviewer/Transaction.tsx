@@ -1,18 +1,47 @@
 import {styled} from 'styled-components';
-import { useAppDispatch } from '../../utils/useRedux';
+import { useAppDispatch, useAppSelector } from '../../utils/useRedux';
 import { renewTrn } from '../../redux/slices/trnSlice';
+import { Button as AntButton, Tooltip } from 'antd';
+import { useState, Dispatch, SetStateAction } from "react";
+import { disableVal } from '../../redux/slices/disabledSlice';
 
-export const Transaction = (props : {address: string, totalValue : number, isLast? : boolean,}) => {
+const SeatchButton = styled(AntButton)`
+    &.ant-btn[disabled] {
+        background-color: white; /* ボーダーの色も変更 */
+    }
+`
+
+type TransactionProps = {
+    address: string, 
+    totalValue : number, 
+    isLastTrn?: boolean, 
+    isLastElement? : boolean,
+}
+
+export const Transaction = (props : TransactionProps) => {
     const {address} = props;
     const dispatch = useAppDispatch();
+    const selector = useAppSelector(state => state.disable.val);
+    const [isSearching, setIsSearching] = useState(false);
+
+    const handleSearchButton = () => {
+        setIsSearching(e => !e);
+    }
 
     return (
         <>
             <Frame onClick={() => {dispatch(renewTrn(address))}} id='tx'>
+                {props.isLastTrn &&
+                    <ButtonWrapper>
+                        <SeatchButton loading={isSearching} onClick={handleSearchButton} disabled={selector}>
+                            {isSearching ? '':'➡️'}
+                        </SeatchButton>
+                    </ButtonWrapper>
+                }
                 <Address>{props.address}</Address>
-                <Amount>{props.totalValue + ' ETH'}</Amount>
+                <Amount>{`TVL ${props.totalValue} ETH`}</Amount>
             </Frame>
-            {props.isLast &&       
+            {props.isLastElement &&       
             <EmptyFrame>
             </EmptyFrame>}
         </>
@@ -20,27 +49,39 @@ export const Transaction = (props : {address: string, totalValue : number, isLas
 }
 
 const Frame = styled.div`
-    background-color: #b1f9f5;
+    position: relative;
+    background-color: transparent;
     height: 100px;
     width: 300px;
     margin-bottom: 15px;
-    border-color: #b1f9f5;
-    border-width: 3px;
-    border-radius: 15px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
+    border: 7px ridge white;
+    border-radius: 8px;
 `;
 
 const EmptyFrame = styled(Frame)`
     visibility: hidden;
 `;
-const Address = styled.span`
+const ButtonWrapper = styled.div`
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+`;
+const Address = styled.div`
+    color: aliceblue;
+    width: 70%;
     margin-top : 10px;
-    border-radius: 15px;
+    margin-left: 8px;
+    border-left: 5px solid white;
+    padding-left: 5px;
+    font-size: 18px;
 `
-const Amount = styled.span`
-
+const Amount = styled.div`
+    color: aliceblue;
+    width: 70%;
     margin-top : 10px;
-    border-radius: 15px;
+    margin-left: 8px;
+    border-left: 5px solid white;
+    padding-left: 5px;
+    font-size: 24px;
 `
