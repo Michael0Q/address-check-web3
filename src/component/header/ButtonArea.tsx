@@ -11,7 +11,7 @@ export const ButtonArea = () => {
     const goX = () => {
         window.open(X_URL, "_blank", "noopener,noreferrer");
     };
-
+    
     return (
         <ButtonAreaFrame>
             <Button count={3} display={display === "Home"} onClick={() => dispatch(goHome())}>home</Button>

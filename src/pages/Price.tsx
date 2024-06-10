@@ -82,15 +82,16 @@ const PriceFrameAnimation = keyframes`
 
 const PriceFrame = styled.div`
     width: 100vw;
-    height: 100vh;
+    height: 73vh;
     background-color: transparent;
     text-align: center;
-    padding-top: 160px;
+    padding-top: 120px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
     animation: ${PriceFrameAnimation} 1s forwards;
+    overflow-y: auto;
 `
 
 const PriceInfo = styled.div`
@@ -99,7 +100,7 @@ const PriceInfo = styled.div`
     justify-content: space-between;
     width: 334px;
     height: 447px;
-    margin: 25px;
+    margin: 20px;
     border-radius: 10px;
     border: 3px solid white;
     background-color: #08012e;

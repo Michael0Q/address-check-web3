@@ -1,7 +1,7 @@
 import {styled} from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../utils/useRedux';
 import { renewTrn } from '../../redux/slices/trnSlice';
-import { Button as AntButton, Tooltip } from 'antd';
+import { Button as AntButton, Typography } from 'antd';
 import { useState, Dispatch, SetStateAction } from "react";
 import { disableVal } from '../../redux/slices/disabledSlice';
 
@@ -30,7 +30,7 @@ export const Transaction = (props : TransactionProps) => {
 
     return (
         <>
-            <Frame onClick={() => {dispatch(renewTrn(address))}} id='tx'>
+            <Frame id='tx'>
                 {props.isLastTrn &&
                     <ButtonWrapper>
                         <SeatchButton loading={isSearching} onClick={handleSearchButton} disabled={selector}>
@@ -38,8 +38,8 @@ export const Transaction = (props : TransactionProps) => {
                         </SeatchButton>
                     </ButtonWrapper>
                 }
-                <Address>{props.address}</Address>
-                <Amount>{`TVL ${props.totalValue} ETH`}</Amount>
+                <Address copyable={{text: props.address}}>{`${props.address.substring(0, 15)}...`}</Address>
+                <Amount>{`TVL ${props.totalValue.toFixed(4)} ETH`}</Amount>
             </Frame>
             {props.isLastElement &&       
             <EmptyFrame>
@@ -67,14 +67,17 @@ const ButtonWrapper = styled.div`
     top: 50%;
     transform: translateY(-50%);
 `;
-const Address = styled.div`
+
+
+const Address = styled(Typography.Paragraph)`
     color: aliceblue;
-    width: 70%;
+    width: 80%;
     margin-top : 10px;
     margin-left: 8px;
     border-left: 5px solid white;
     padding-left: 5px;
     font-size: 18px;
+    overflow: hidden;
 `
 const Amount = styled.div`
     color: aliceblue;
